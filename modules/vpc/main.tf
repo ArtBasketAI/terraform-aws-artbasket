@@ -10,13 +10,14 @@ resource "aws_vpc" "main_vpc" {
   }
 }
 
+# Example of creating multiple subnets
 resource "aws_subnet" "public_subnet" {
-  vpc_id                  = aws_vpc.main_vpc.id
-  cidr_block              = var.subnet_cidr
-  map_public_ip_on_launch = true
+  count      = length(var.subnet_cidrs)
+  vpc_id     = aws_vpc.main_vpc.id
+  cidr_block = var.subnet_cidrs[count.index]
 
   tags = {
-    Name = "Public Subnet"
+    Name = "Public Subnet ${count.index}"
   }
 }
 
@@ -35,13 +36,10 @@ resource "aws_route_table" "rt" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.gw.id
   }
-
-  tags = {
-    Name = "Route Table"
-  }
 }
 
 resource "aws_route_table_association" "rta" {
-  subnet_id      = aws_subnet.public_subnet.id
+  count          = length(aws_subnet.public_subnet.*.id)
+  subnet_id      = aws_subnet.public_subnet[count.index].id
   route_table_id = aws_route_table.rt.id
 }

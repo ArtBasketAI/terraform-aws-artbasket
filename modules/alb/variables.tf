@@ -1,14 +1,14 @@
-variable "security_group_id" {
-  description = "The ID of the security group for the load balancer."
-  type        = string
+# modules/alb/variables.tf
+
+variable "sg_id" {
+  description = "Security group ID for the ALB"
 }
 
 variable "subnet_ids" {
-  description = "A list of subnet IDs to attach to the load balancer."
+  description = "List of subnet IDs for the ALB"
   type        = list(string)
 }
 
 variable "vpc_id" {
-  description = "The ID of the VPC."
-  type        = string
+  description = "The ID of the VPC"
 }

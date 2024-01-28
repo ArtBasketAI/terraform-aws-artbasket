@@ -22,7 +22,7 @@ module "ec2" {
   instance_count   = var.instance_count
   instance_type    = var.instance_type
   ami_id           = var.ami_id
-  subnet_id        = module.vpc.subnet_id
+  subnet_id        = module.vpc.subnet_ids[0] # Use the first subnet ID
   sg_id            = module.security_group.sg_id
   key_name         = aws_key_pair.deployer.key_name
   target_group_arn = module.alb.target_group_arn

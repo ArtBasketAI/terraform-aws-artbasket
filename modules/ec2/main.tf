@@ -14,7 +14,7 @@ resource "aws_instance" "app_server" {
                   sudo apt-get install -y docker.io
                   sudo systemctl start docker
                   sudo systemctl enable docker
-                  sudo docker run -d -p 3000:3000 bharathts07/artbasket-frontend
+                  sudo docker run -d -p 3000:3000 bharathts07/artbasket-frontend:latest
                   EOF
 
   tags = {

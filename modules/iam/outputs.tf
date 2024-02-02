@@ -3,6 +3,6 @@ output "ecr_access_profile_arn" {
   value       = aws_iam_instance_profile.ecr_access_profile.arn
 }
 
-output "ecr_access_profile_arn" {
-  value = aws_iam_instance_profile.ecr_access_profile.arn
+output "ec2_role_name" {
+  value = aws_iam_role.ecr_access_role.name
 }

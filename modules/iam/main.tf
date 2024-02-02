@@ -12,15 +12,15 @@ resource "aws_iam_role" "ecr_access_role" {
           Service = "ec2.amazonaws.com"
         }
         Effect = "Allow"
-        Sid = ""
+        Sid    = ""
       },
     ]
   })
 }
 
 resource "aws_iam_role_policy" "ecr_access" {
-  name   = "ecr_access_policy"
-  role   = aws_iam_role.ecr_access_role.id
+  name = "ecr_access_policy"
+  role = aws_iam_role.ecr_access_role.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -32,7 +32,7 @@ resource "aws_iam_role_policy" "ecr_access" {
           "ecr:GetAuthorizationToken",
         ],
         Resource = "*"
-        Effect = "Allow"
+        Effect   = "Allow"
       },
     ]
   })

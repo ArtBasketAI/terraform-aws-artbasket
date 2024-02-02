@@ -1,13 +1,13 @@
 # modules/ec2/main.tf
 
 resource "aws_instance" "app_server" {
-  count                     = var.instance_count
-  ami                       = var.ami_id
-  instance_type             = var.instance_type
-  subnet_id                 = var.subnet_id
-  key_name                  = var.key_name
-  security_groups           = [var.sg_id]
-  iam_instance_profile      = aws_iam_instance_profile.ecr_access_profile.name
+  count                = var.instance_count
+  ami                  = var.ami_id
+  instance_type        = var.instance_type
+  subnet_id            = var.subnet_id
+  key_name             = var.key_name
+  security_groups      = [var.sg_id]
+  iam_instance_profile = aws_iam_instance_profile.ecr_access_profile.name
 
   associate_public_ip_address = true
 
@@ -42,6 +42,6 @@ resource "aws_lb_target_group_attachment" "tga" {
 }
 
 resource "aws_iam_instance_profile" "ecr_access_profile" {
-  name = "ecrAccessProfile"
-  role = aws_iam_role.ec2_role.name
+  name = "ecr_access_profile"
+  role = var.ec2_role_name
 }

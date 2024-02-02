@@ -12,9 +12,10 @@ resource "aws_vpc" "main_vpc" {
 
 # Example of creating multiple subnets
 resource "aws_subnet" "public_subnet" {
-  count      = length(var.subnet_cidrs)
-  vpc_id     = aws_vpc.main_vpc.id
-  cidr_block = var.subnet_cidrs[count.index]
+  count             = length(var.subnet_cidrs)
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = var.subnet_cidrs[count.index]
+  availability_zone = var.availability_zones[count.index]
 
   tags = {
     Name = "Public Subnet ${count.index}"

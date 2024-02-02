@@ -18,14 +18,15 @@ module "security_group" {
 
 # Module for EC2 instance setup
 module "ec2" {
-  source           = "./modules/ec2"
-  instance_count   = var.instance_count
-  instance_type    = var.instance_type
-  ami_id           = var.ami_id
-  subnet_id        = module.vpc.subnet_ids[0] # Use the first subnet ID
-  sg_id            = module.security_group.sg_id
-  key_name         = aws_key_pair.deployer.key_name
-  target_group_arn = module.alb.target_group_arn
+  source              = "./modules/ec2"
+  instance_count      = var.instance_count
+  instance_type       = var.instance_type
+  ami_id              = var.ami_id
+  subnet_id           = module.vpc.subnet_ids[0]
+  sg_id               = module.security_group.sg_id
+  key_name            = aws_key_pair.deployer.key_name
+  target_group_arn    = module.alb.target_group_arn
+  iam_instance_profile = module.iam.ecr_access_profile_arn
 }
 
 # Module for Application Load Balancer setup

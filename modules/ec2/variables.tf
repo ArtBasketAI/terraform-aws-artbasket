@@ -27,3 +27,8 @@ variable "key_name" {
 variable "target_group_arn" {
   description = "ARN of the target group for the load balancer"
 }
+
+variable "iam_instance_profile" {
+  description = "ARN of the IAM instance profile for the EC2 instance"
+  type        = string
+}

@@ -40,3 +40,8 @@ resource "aws_lb_target_group_attachment" "tga" {
   target_id        = aws_instance.app_server.*.id[count.index]
   port             = 3000
 }
+
+resource "aws_iam_instance_profile" "ecr_access_profile" {
+  name = "ecrAccessProfile"
+  role = aws_iam_role.ec2_role.name
+}

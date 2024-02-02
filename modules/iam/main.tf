@@ -1,3 +1,5 @@
+# modules/iam/main.tf
+
 resource "aws_iam_role" "ecr_access_role" {
   name = "ecr_access_role"
 

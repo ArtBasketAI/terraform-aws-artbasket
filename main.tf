@@ -38,10 +38,18 @@ module "ec2" {
 
 # Module for Application Load Balancer setup
 module "alb" {
-  source     = "./modules/alb"
-  subnet_ids = module.vpc.subnet_ids
-  sg_id      = module.security_group.alb_sg_id
-  vpc_id     = module.vpc.vpc_id
+  source          = "./modules/alb"
+  subnet_ids      = module.vpc.subnet_ids
+  sg_id           = module.security_group.alb_sg_id
+  vpc_id          = module.vpc.vpc_id
+  certificate_arn = module.acm.certificate_arn
+}
+
+module "acm" {
+  source                    = "./modules/acm"
+  domain_name               = "artbasket.org"
+  subject_alternative_names = ["www.artbasket.org"]
+  route53_zone_id           = module.route53.route53_zone_id
 }
 
 # Module for Route 53 setup

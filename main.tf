@@ -33,7 +33,7 @@ module "ec2" {
   key_name             = aws_key_pair.deployer.key_name
   target_group_arn     = module.alb.target_group_arn
   iam_instance_profile = module.iam.ecr_access_profile_arn
-  ec2_role_name        = module.iam.ec2_role_name
+  ecr_access_role_name = module.iam.ecr_access_role_name
 }
 
 # Module for Application Load Balancer setup

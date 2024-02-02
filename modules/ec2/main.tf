@@ -7,7 +7,7 @@ resource "aws_instance" "app_server" {
   subnet_id            = var.subnet_id
   key_name             = var.key_name
   security_groups      = [var.sg_id]
-  iam_instance_profile = aws_iam_instance_profile.ecr_access_profile.name
+  iam_instance_profile = aws_iam_instance_profile.new_ecr_access_profile.name
 
   associate_public_ip_address = true
 
@@ -41,7 +41,7 @@ resource "aws_lb_target_group_attachment" "tga" {
   port             = 3000
 }
 
-resource "aws_iam_instance_profile" "ecr_access_profile" {
-  name = "ecr_access_profile"
-  role = var.ec2_role_name
+resource "aws_iam_instance_profile" "new_ecr_access_profile" {
+  name = "new_ecr_access_profile"
+  role = var.ecr_access_role_name
 }

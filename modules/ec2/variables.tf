@@ -33,7 +33,7 @@ variable "iam_instance_profile" {
   type        = string
 }
 
-variable "ec2_role_name" {
-  description = "Name of the IAM role for the EC2 instance"
+variable "ecr_access_role_name" {
+  description = "The name of the IAM role for ECR access"
   type        = string
 }

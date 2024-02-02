@@ -9,11 +9,10 @@
 crash.log
 
 # Exclude all .tfvars files, which might contain sensitive data, such as
-# password, private keys, and other secrets. These should not be part of version control as they are data points which are potentially sensitive and subject to change depending on the environment.
+# password, private keys, and other secrets. These should not be part of version control
 *.tfvars
 
-# Ignore override files as they are usually used to override resources locally and so
-# are not checked in
+# Ignore override files as they are usually used to override resources locally.
 override.tf
 override.tf.json
 *_override.tf
@@ -22,6 +21,3 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
-
-# Unneeded Local MacOS attribute config file
-.DS_Store

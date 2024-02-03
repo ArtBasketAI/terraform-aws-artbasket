@@ -11,7 +11,7 @@ resource "aws_instance" "app_server" {
 
   associate_public_ip_address = true
 
-user_data = <<-EOF
+  user_data = <<-EOF
               #!/bin/bash
               # Update the installed packages and package cache
               yum update -y

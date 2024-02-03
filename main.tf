@@ -44,11 +44,11 @@ module "ec2" {
 
 # Module for Application Load Balancer setup
 module "alb" {
-  source          = "./modules/alb"
-  subnet_ids      = module.vpc.subnet_ids
-  sg_id           = module.security_group.alb_sg_id
-  vpc_id          = module.vpc.vpc_id
-  certificate_arn = module.acm.certificate_arn
+  source     = "./modules/alb"
+  subnet_ids = module.vpc.subnet_ids
+  sg_id      = module.security_group.alb_sg_id
+  vpc_id     = module.vpc.vpc_id
+  # certificate_arn = module.acm.certificate_arn
 }
 
 # # There seems to be an issue with the setup of route 53 and acm so will comment them out 

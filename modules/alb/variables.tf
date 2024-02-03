@@ -13,7 +13,7 @@ variable "vpc_id" {
   description = "The ID of the VPC"
 }
 
-variable "certificate_arn" {
-  description = "The ARN of the SSL certificate"
-  type        = string
-}
+# variable "certificate_arn" {
+#   description = "The ARN of the SSL certificate"
+#   type        = string
+# }

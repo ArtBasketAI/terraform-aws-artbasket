@@ -4,6 +4,12 @@ provider "aws" {
   region = "us-east-1" # AWS region set to US East (N. Virginia)
 }
 
+# AWS key pair for EC2 instance SSH access
+resource "aws_key_pair" "deployer" {
+  key_name   = "ec2-deployer-key"
+  public_key = file("~/.ssh/id_ed25519.pub") # Path to your ed25519 public key
+}
+
 # Module for VPC setup
 module "vpc" {
   source = "./modules/vpc"
@@ -45,23 +51,20 @@ module "alb" {
   certificate_arn = module.acm.certificate_arn
 }
 
-module "acm" {
-  source                    = "./modules/acm"
-  domain_name               = "artbasket.org"
-  subject_alternative_names = ["www.artbasket.org"]
-  route53_zone_id           = module.route53.route53_zone_id
-}
+# # There seems to be an issue with the setup of route 53 and acm so will comment them out 
 
-# Module for Route 53 setup
-module "route53" {
-  source       = "./modules/route53"
-  domain_name  = "artbasket.org"
-  alb_dns_name = module.alb.alb_dns_name
-  alb_zone_id  = module.alb.alb_zone_id # Ensure your ALB module provides this output
-}
+# # Module for Route 53 setup
+# module "route53" {
+#   source       = "./modules/route53"
+#   domain_name  = "artbasket.org"
+#   alb_dns_name = module.alb.alb_dns_name
+#   alb_zone_id  = module.alb.alb_zone_id # Ensure your ALB module provides this output
+# }
 
-# AWS key pair for EC2 instance SSH access
-resource "aws_key_pair" "deployer" {
-  key_name   = "ec2-deployer-key"
-  public_key = file("~/.ssh/id_ed25519.pub") # Path to your ed25519 public key
-}
+# # Module for Amazon Certificate Management for Https/SSL
+# module "acm" {
+#   source                    = "./modules/acm"
+#   domain_name               = "artbasket.org"
+#   subject_alternative_names = ["www.artbasket.org"]
+#   route53_zone_id           = module.route53.route53_zone_id
+# }

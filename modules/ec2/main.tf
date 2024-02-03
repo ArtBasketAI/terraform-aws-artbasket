@@ -11,23 +11,42 @@ resource "aws_instance" "app_server" {
 
   associate_public_ip_address = true
 
-  user_data = <<-EOF
-                #!/bin/bash
-                # Update the installed packages and package cache
-                yum update -y
-                # Install Docker
-                yum install -y docker
-                # Start the Docker service
-                service docker start
-                # Ensure Docker starts on reboot
-                chkconfig docker on
-                # Authenticate Docker to your default ECR registry
-                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 032279951720.dkr.ecr.us-east-1.amazonaws.com
-                # Pull the Docker image from ECR
-                docker pull 032279951720.dkr.ecr.us-east-1.amazonaws.com/ab-frontend-img:latest
-                # Run the Docker container, replace <options> with your Docker run options
-                docker run --platform linux/amd64 -d -p 3000:3000 032279951720.dkr.ecr.us-east-1.amazonaws.com/ab-frontend-img:latest
-                EOF
+user_data = <<-EOF
+              #!/bin/bash
+              # Update the installed packages and package cache
+              yum update -y
+              # Install Docker
+              yum install -y docker
+              # Start the Docker service
+              service docker start
+              # Ensure Docker starts on reboot
+              chkconfig docker on
+              # Install Docker Compose
+              curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              chmod +x /usr/local/bin/docker-compose
+              # Authenticate Docker to your default ECR registry
+              $(aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 032279951720.dkr.ecr.us-east-1.amazonaws.com)
+              # Create the docker-compose.yml file
+              cat > /home/ec2-user/docker-compose.yml <<'EOC'
+              version: '3'
+              services:
+                backend:
+                  image: 032279951720.dkr.ecr.us-east-1.amazonaws.com/ab-backend-img:latest
+                  ports:
+                    - "8080:8080"
+                frontend:
+                  image: 032279951720.dkr.ecr.us-east-1.amazonaws.com/ab-frontend-img:latest
+                  ports:
+                    - "3000:3000"
+                  depends_on:
+                    - backend
+              EOC
+              # Navigate to the directory containing docker-compose.yml
+              cd /home/ec2-user
+              # Start up the application stack
+              docker-compose up -d
+              EOF
+
 
   tags = {
     Name = "app-server-${count.index}"
